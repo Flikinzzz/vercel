@@ -1,0 +1,11 @@
+.language-selection {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .language-selection button, .language-selection select {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  

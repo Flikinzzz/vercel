@@ -1,0 +1,30 @@
+<div class="col-lg-12 col-sm-6">
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-24">
+        <mat-card-title>Personas de grupos objetivo</mat-card-title>
+        <div *ngFor="let personaObjetivo of grupos; let index = index">
+          <br>
+          <div>Nombre: {{personaObjetivo.nombre}}</div>
+          <div>Edad: {{personaObjetivo.edad}}</div>
+          <div>Genero: {{personaObjetivo.genero}}</div>
+          <div>Correo: {{personaObjetivo.correo}}</div>
+          <div>Empresa dueña: {{conseguirNombre(personaObjetivo.eid)}}</div>
+          <div>nGrupo: {{personaObjetivo.nGrupo}}</div>
+
+          <div>oid: {{personaObjetivo.genero}}</div>
+          <br>
+          <button color="accent" 
+                  mat-raised-button 
+                  (click)="deleteGrupo(personaObjetivo)"
+                  >Eliminar</button>
+          <br>
+        </div>
+        <div>
+        </div>
+        <mat-card class="cardWithShadow">
+          <br>
+          <button mat-raised-button color="primary" type="button" (click)="addGrupo()">Agregar persona grupo objetivo</button>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
