@@ -21,7 +21,7 @@ export class BebestiblesComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.getPlatos([10,11,12]); 
+    this.getPlatos([12,5,6,4]); 
   }
 
   async getPlatos(ids: number[]) {
