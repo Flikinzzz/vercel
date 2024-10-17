@@ -24,12 +24,20 @@ export class SupabaseService {
     return data;
   }*/
 
-  async getPlatos() {
-    const datos = await supabase
-    .from('producto')
-    .select('*')
-    return datos.data || []
-  }
+    async getPlatos(ids: number[]) {
+      const { data, error } = await supabase
+        .from('producto')
+        .select('*')
+        .in('id_producto', ids);
+    
+      if (error) {
+        console.error('Error fetching data:', error);
+        return []; 
+      }
+    
+      return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+    }
+    
 
  /* async insertOrderDetail(orderDetailData: any) {
     const { data, error } = await supabase

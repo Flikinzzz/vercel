@@ -1,64 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button'; // Si usas botones
-import { MatIconModule } from '@angular/material/icon'; // Si usas íconos
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { SupabaseService } from '../supabase.service'; 
 
 @Component({
   selector: 'app-bebestibles',
   standalone: true,
-  imports:  [MatCardModule, MatButtonModule, MatIconModule, CommonModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, CommonModule],
   templateUrl: './bebestibles.component.html',
-  styleUrl: './bebestibles.component.css' 
+  styleUrls: ['./bebestibles.component.css']
 })
-export class BebestiblesComponent {
-  
+export class BebestiblesComponent implements OnInit {
   bebestiblesPrincipales: any[];
 
-  constructor() {
+  constructor(private sus: SupabaseService) {
     this.bebestiblesPrincipales = [];
-    this.bebestiblesPrueba();
-    //this.getBebestibles(); // Llama a getBebestibles para obtener datos reales
   }
 
-  async bebestiblesPrueba() {
-    let bebestiblesPrueba = [
-      {
-        nombre_bebestible: 'Mojito Clásico',
-        descripcion: 'Refrescante mezcla de ron, menta fresca, jugo de limón y soda, perfecto para un día caluroso.',
-        precio: 6500
-      },
-      {
-        nombre_bebestible: 'Cerveza Artesanal',
-        descripcion: 'Cerveza de elaboración artesanal, con un sabor amargo característico y aromas cítricos.',
-        precio: 5000
-      },
-      {
-        nombre_bebestible: 'Jugo Natural de Frutas',
-        descripcion: 'Delicioso jugo recién exprimido, disponible en sabores como naranja, frutilla o piña.',
-        precio: 3200
-      }
-    ];
-    this.bebestiblesPrincipales = bebestiblesPrueba;
+  async ngOnInit() {
+    this.getPlatos([10,11,12]); 
   }
 
-  async getBebestibles() {
-    try {
-      const result = await fetch(''); // URL válida
-      if (!result.ok) {
-        throw new Error('Error en la petición');
-      }
-      const response = (await result.json()) as any[];
-      this.bebestiblesPrincipales = response;
-    } catch (error) {
-      console.error('Error al obtener los bebestibles:', error);
-    }
+  async getPlatos(ids: number[]) {
+    const data = await this.sus.getPlatos(ids);
+    this.bebestiblesPrincipales = data || [];
   }
-  mostrarInfo(bebestible: any){
+
+  mostrarInfo(bebestible: any) {
     Swal.fire({
-      title: `${bebestible.nombre_bebestible}`,  
-      html: `${bebestible.descripcion}<br>Valor: $${bebestible.precio}`,  // Sigue siendo descripción y precio
+      title: `${bebestible.nombre_producto}`, 
+      html: `${bebestible.descripcion}<br>Valor: $${bebestible.precio}`,
       confirmButtonText: 'Agregar al carrito',
       confirmButtonColor: '#71cf13',
       cancelButtonText: 'Cancelar',
@@ -66,7 +40,7 @@ export class BebestiblesComponent {
       showCloseButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("¡Producto agregado!", "", "success");
+        Swal.fire('¡Producto agregado!', '', 'success');
       }
     });
   }
