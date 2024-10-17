@@ -20,7 +20,7 @@ export class VeganoComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.getPlatos([4,5,6]); // IDs de los platos veganos
+    this.getPlatos([7,8,9]); 
   }
 
   async getPlatos(ids: number[]) {
