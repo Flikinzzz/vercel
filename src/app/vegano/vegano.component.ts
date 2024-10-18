@@ -40,6 +40,7 @@ export class VeganoComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('¡Producto agregado!', '', 'success');
+        this.sus.addCarrito(plato);
       }
     });
   }

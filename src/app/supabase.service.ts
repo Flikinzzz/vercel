@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createClient} from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 const supabaseURL = 'https://utzigyzeijlgmmgojnrw.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0emlneXplaWpsZ21tZ29qbnJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYyODIwOTQsImV4cCI6MjA0MTg1ODA5NH0.PZJb53h5yJ5VFzG7FJar1qCDZBYYD5jH2odMeFngsJo';
 const supabase = createClient(supabaseURL, supabaseKey);
@@ -25,33 +25,70 @@ export class SupabaseService {
     return data;
   }*/
 
-    async getPlatos(ids: number[]) {
-      const { data, error } = await supabase
-        .from('producto')
-        .select('*')
-        .in('id_producto', ids);
-    
-      if (error) {
-        console.error('Error fetching data:', error);
-        return []; 
-      }
-    
-      return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
-    }
-    
-    async getNCarrito(){
-      return this.nCarrito;
-    }
-
- /* async insertOrderDetail(orderDetailData: any) {
+  async getPlatos(ids: number[]) {
     const { data, error } = await supabase
-      .from('pedido_detalle')
-      .insert(orderDetailData);
+      .from('producto')
+      .select('*')
+      .in('id_producto', ids);
 
     if (error) {
-      throw new Error('Error inserting order detail: ' + error.message);
+      console.error('Error fetching data:', error);
+      return [];
     }
+    return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+  }
 
-    return data;
-  }*/
+  async getInfoPlatos(id: number){
+    const { data, error } = await supabase
+      .from('producto')
+      .select('*')
+      .eq('id_producto', id);
+    if (error) {
+      console.error('Error fetching data:', error);
+      return 'xd';
+    }
+    console.log(id);
+    console.log(data);
+    return data[0]; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+  }
+
+
+  
+
+
+  async getNCarrito() {
+    return this.nCarrito;
+  }
+
+  async addCarrito(datos: any) {
+    const { error } = await supabase
+      .from('carrito')
+      .insert([
+        { numero_carrito: this.nCarrito, id_producto: datos.id_producto, cantidad : 1 },
+      ])
+  }
+
+  async getCarrito() {
+    const { data, error } = await supabase
+      .from('carrito')
+      .select('*')
+      .eq('numero_carrito', this.nCarrito);
+    if (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
+    return data; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+  }
+
+  /* async insertOrderDetail(orderDetailData: any) {
+     const { data, error } = await supabase
+       .from('pedido_detalle')
+       .insert(orderDetailData);
+ 
+     if (error) {
+       throw new Error('Error inserting order detail: ' + error.message);
+     }
+ 
+     return data;
+   }*/
 }

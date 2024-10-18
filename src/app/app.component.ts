@@ -14,6 +14,7 @@ import {MatListModule} from '@angular/material/list';
 import { TranslationService } from './translation.service';
 import {MatButtonModule} from '@angular/material/button'
 import Swal from 'sweetalert2';
+import { SupabaseService } from './supabase.service';
 
 
 
@@ -26,7 +27,7 @@ import Swal from 'sweetalert2';
 })
 
 export class AppComponent {
-  carrito = [];
+  carrito: any[];
   title = 'material-responsive-sidenav';
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
@@ -44,8 +45,10 @@ export class AppComponent {
 
     constructor(
       private observer: BreakpointObserver,
-      private translationService: TranslationService  // Inyectar el servicio de traducción
+      private translationService: TranslationService,  // Inyectar el servicio de traducción
+      private sus: SupabaseService
     ) {
+      this.carrito = [];
     }
   
   ngOnInit() {
@@ -70,12 +73,30 @@ export class AppComponent {
   getTranslation(key: string): string {
     return this.translationService.getTranslation(key);
   }
+  
+  async getCarrito() {
+    const data = await this.sus.getCarrito();
+    this.carrito = data;
+  }
 
 
-  /*mostrarInfo(carrito: any) {
+  async mostrarInfo() {
+    let descripcion = '';
+    const data = await this.sus.getCarrito();
+    this.carrito = data;
+    var ids: number[];
+    ids = [];
+    for (var i = 0; i < this.carrito.length; i++) {
+      ids.push(this.carrito[i].id_producto);
+    }
+    var plato = await this.sus.getPlatos(ids);
+    for (var i = 0; i < this.carrito.length; i++) {
+      descripcion = descripcion + plato[i].nombre_producto + '        $' + plato[i].precio + '<br>';
+    }
+    console.log(descripcion);
     Swal.fire({
       title: `Carrito`,
-      html: `<div *ngFor="let plato of ${carrito}; let index = index"><br><div>{{plato.nombre_producto}}      $ {{plato.precio}}</div>`,
+      html: descripcion,
       confirmButtonText: 'Pagar',
       confirmButtonColor: '#71cf13',
       cancelButtonText: 'Cerrar',
@@ -83,10 +104,10 @@ export class AppComponent {
       showCloseButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("¡Producto agregado!", "", "success");
+        Swal.fire("¡Funcion no disponible!", "", "success");
       }
     });
-  }*/
+  }
 
 
 }

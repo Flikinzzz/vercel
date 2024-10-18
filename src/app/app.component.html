@@ -2,11 +2,11 @@
   <button mat-icon-button (click)="toggleMenu()" style="left: 0%">
       <mat-icon>menu</mat-icon>
     </button>
-    {{ getTranslation('menu') }}   
   <img src="/assets/logo.png" height="62px" width="202px" [routerLink]="['/']" />
-  <button mat-icon-button position='TopRight' >
+  <span class="flexExpand"></span>
+  <button mat-icon-button (click)="mostrarInfo()">
     <mat-icon>shopping_cart</mat-icon>
-    <div>Carrito</div>
+    <div style="font-size: 8px">Carrito</div>
   </button>
 </mat-toolbar>
 <mat-sidenav-container>
