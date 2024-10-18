@@ -38,6 +38,8 @@ export class PlatosPrincipalesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("¡Producto agregado!", "", "success");
+        let nCarrito = this.sus.getNCarrito;
+        //Acá va el comando para agregar al carrito
       }
     });
   }

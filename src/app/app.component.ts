@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 import { TranslationService } from './translation.service';
 import {MatButtonModule} from '@angular/material/button'
+import Swal from 'sweetalert2';
 
 
 
@@ -25,6 +26,7 @@ import {MatButtonModule} from '@angular/material/button'
 })
 
 export class AppComponent {
+  carrito = [];
   title = 'material-responsive-sidenav';
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
@@ -43,7 +45,8 @@ export class AppComponent {
     constructor(
       private observer: BreakpointObserver,
       private translationService: TranslationService  // Inyectar el servicio de traducción
-    ) {}
+    ) {
+    }
   
   ngOnInit() {
     // Cargar las traducciones para el idioma por defecto (español)
@@ -68,6 +71,22 @@ export class AppComponent {
     return this.translationService.getTranslation(key);
   }
 
+
+  /*mostrarInfo(carrito: any) {
+    Swal.fire({
+      title: `Carrito`,
+      html: `<div *ngFor="let plato of ${carrito}; let index = index"><br><div>{{plato.nombre_producto}}      $ {{plato.precio}}</div>`,
+      confirmButtonText: 'Pagar',
+      confirmButtonColor: '#71cf13',
+      cancelButtonText: 'Cerrar',
+      cancelButtonColor: '#DBDBDB',
+      showCloseButton: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("¡Producto agregado!", "", "success");
+      }
+    });
+  }*/
 
 
 }

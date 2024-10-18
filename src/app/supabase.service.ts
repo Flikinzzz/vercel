@@ -8,6 +8,7 @@ const supabase = createClient(supabaseURL, supabaseKey);
   providedIn: 'root'
 })
 export class SupabaseService {
+  nCarrito = Math.floor(Math.random() * 10001);
   constructor() {
 
   }
@@ -38,6 +39,9 @@ export class SupabaseService {
       return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
     }
     
+    async getNCarrito(){
+      return this.nCarrito;
+    }
 
  /* async insertOrderDetail(orderDetailData: any) {
     const { data, error } = await supabase
