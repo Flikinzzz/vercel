@@ -1,27 +1,22 @@
 <div class="col-lg-12 col-sm-6">
-    <mat-card class="cardWithShadow">
-      <mat-card-content class="p-24">
-        <mat-card-title>Bebestibles</mat-card-title>
-        <div *ngFor="let bebestible of bebestiblesPrincipales; let index = index">
-          <br>
-          <div>{{bebestible.nombre_producto}}</div>
-          <div>Precio: ${{bebestible.precio}}</div>
-          <br>
-          <button
-                  mat-raised-button 
-                  (click)="mostrarInfo(bebestible)">
-            Más información
-          </button>
-          <button color="#80e70b"
-                  mat-raised-button 
-                  (click)="mostrarInfo(bebestible)">
-            Añadir al carrito 
-            <mat-icon>shopping_cart</mat-icon>
-          </button>
-          <br>
-        </div>
-        <div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+      <mat-card-title>{{ getTranslation('drinks') }}</mat-card-title> <!-- Traducción de 'Bebestibles' -->
+      <div *ngFor="let bebestible of bebestiblesPrincipales; let index = index">
+        <br>
+        <div>{{ bebestible.nombre_producto }}</div>
+        <div>{{ getTranslation('priceLabel') }}: ${{ bebestible.precio }}</div>
+        <br>
+        <button mat-raised-button (click)="mostrarInfo(bebestible)">
+          {{ getTranslation('moreInfoLabel') }} <!-- Traducción de 'Más información' -->
+        </button>
+        <button mat-raised-button (click)="addToCart(bebestible)">
+          {{ getTranslation('addToCartLabel') }} <!-- Traducción de 'Añadir al carrito' -->
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+        <br>
+      </div>
+      <div></div>
+    </mat-card-content>
+  </mat-card>
+</div>

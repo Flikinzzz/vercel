@@ -7,6 +7,14 @@
     "language": "Language",
     "restaurantName": "Restaurant Name",
     "welcome" : "¡Welcome to restaurant La Prueba!",
-    "instructions" : "Start your order here!"
+    "instructions" : "Start your order here!",
+    "price": "Price",
+    "moreInfo": "More Information",
+    "addToCart": "Add to Cart",
+    "priceLabel": "Price",
+    "moreInfoLabel": "More Information",
+    "addToCartLabel": "Add to cart",
+    "cancelLabel": "Cancel",
+    "productAddedLabel": "¡Product added!"
   }
   

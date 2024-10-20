@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import Swal from 'sweetalert2';
 import { SupabaseService } from '../supabase.service'; 
+import { TranslationService } from '../translation.service'; // Importa el servicio de traducción
 
 @Component({
   selector: 'app-vegano',
@@ -15,7 +16,9 @@ import { SupabaseService } from '../supabase.service';
 })
 export class VeganoComponent implements OnInit {
   platosPrincipales: any[];
-  constructor(private sus: SupabaseService) {
+  anadirAlCarrito: any;
+
+  constructor(private sus: SupabaseService, private translationService: TranslationService) { // Inyecta el servicio de traducción
     this.platosPrincipales = [];
   }
 
@@ -32,16 +35,21 @@ export class VeganoComponent implements OnInit {
     Swal.fire({
       title: `${plato.nombre_producto}`,
       html: `${plato.descripcion}<br>Valor: $${plato.precio}`,
-      confirmButtonText: 'Agregar al carrito',
+      confirmButtonText: this.getTranslation('addToCartLabel'), // Traducción para "Agregar al carrito"
       confirmButtonColor: '#71cf13',
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.getTranslation('cancelLabel'), // Traducción para "Cancelar"
       cancelButtonColor: '#DBDBDB',
       showCloseButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('¡Producto agregado!', '', 'success');
+        Swal.fire(this.getTranslation('productAddedLabel'), '', 'success'); // Traducción para "Producto agregado"
         this.sus.addCarrito(plato);
       }
     });
+  }
+
+  // Método para obtener traducción
+  getTranslation(key: string): string {
+    return this.translationService.getTranslation(key);
   }
 }

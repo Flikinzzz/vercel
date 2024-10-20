@@ -7,6 +7,14 @@
     "language": "Lenguaje",
     "restaurantName": "Nombre del restaurante",
     "welcome" : "¡Bienvenido a restaurant La prueba!",
-    "instructions" : "Empieza aquí tu pedido:"
+    "instructions" : "Empieza aquí tu pedido:",
+    "price": "Precio",
+    "moreInfo": "Más información",
+    "addToCart": "Añadir al carrito",
+    "priceLabel": "Precio",
+    "moreInfoLabel": "Más información",
+    "addToCartLabel": "Añadir al carrito",
+    "cancelLabel": "Cancelar",
+    "productAddedLabel": "¡Producto agregado!"
   }
   

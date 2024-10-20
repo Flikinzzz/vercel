@@ -1,25 +1,27 @@
 <div class="col-lg-12 col-sm-6">
-    <mat-card class="cardWithShadow">
-      <mat-card-content class="p-24">
-        <mat-card-title>Platos principales</mat-card-title>
-        <div *ngFor="let plato of platosPrincipales; let index = index">
-          <br>
-          <div>{{plato.nombre_producto}}</div>
-          <div>Precio: ${{plato.precio}}</div>
-          <br>
-          <button
-                  mat-raised-button 
-                  (click)="mostrarInfo(plato)"
-                  >Más infromación</button>
-                  <button color="#80e70b"
-                  mat-raised-button 
-                  (click)="mostrarInfo(plato)"
-                  >Añadir al carrito 
-                <mat-icon>shopping_cart</mat-icon></button>
-          <br>
-        </div>
-        <div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+      <!-- Aquí se usa la variable con el título traducido -->
+      <mat-card-title>{{ mainCoursesTitle }}</mat-card-title>
+
+      <div *ngFor="let plato of platosPrincipales; let index = index">
+        <br>
+        <div>{{ plato.nombre_producto }}</div>
+        <!-- Aquí se usa la variable con la traducción para 'Precio' -->
+        <div>{{ priceLabel }}: ${{ plato.precio }}</div>
+        <br>
+        <!-- Botón con texto traducido para 'Más información' -->
+        <button mat-raised-button (click)="mostrarInfo(plato)">
+          {{ moreInfoLabel }}
+        </button>
+
+        <!-- Botón con texto traducido para 'Añadir al carrito' -->
+        <button color="#80e70b" mat-raised-button (click)="anadirAlCarrito(plato)">
+          {{ addToCartLabel }}
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+        <br>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

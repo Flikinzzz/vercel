@@ -14,7 +14,7 @@ export class TranslationService {
 
   // Método para cargar las traducciones para un idioma
   loadTranslations(language: string) {
-   /* this.currentLanguage = language;  // Actualizar el idioma actual
+    this.currentLanguage = language;  // Actualizar el idioma actual
     
     // Cargar el archivo de traducción usando HttpClient
     const url = `assets/i18n/${language}.json`;
@@ -25,7 +25,7 @@ export class TranslationService {
       (error) => {
         console.error(`Error al cargar el archivo de traducción para ${language}:`, error);
       }
-    );*/
+    );
   }
 
   // Método para cambiar el idioma
