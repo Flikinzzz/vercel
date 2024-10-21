@@ -85,6 +85,7 @@ export class AppComponent {
     const data = await this.sus.getCarrito();
     this.carrito = data;
     var ids: number[];
+    let subtotal: number = 0;
     ids = [];
     for (var i = 0; i < this.carrito.length; i++) {
       ids.push(this.carrito[i].id_producto);
@@ -92,9 +93,10 @@ export class AppComponent {
     var plato = await this.sus.getPlatos(ids);
     for (var i = 0; i < this.carrito.length; i++) {
       descripcion = descripcion + plato[i].nombre_producto + '        $' + plato[i].precio + '<br>';
+      subtotal = subtotal + plato[i].precio;
     }
     let nCarrito = this.sus.getNCarrito();
-    descripcion = descripcion +'<br>Su numero de orden es: ' + nCarrito;
+    descripcion = descripcion +'<br>Su numero de orden es: ' + nCarrito + '<br>SubTotal: $' + subtotal;
     console.log(descripcion);
     Swal.fire({
       title: `Carrito`,
