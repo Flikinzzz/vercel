@@ -50,9 +50,9 @@ export class BebestiblesComponent implements OnInit {
     });
   }
 
-  addToCart(bebestible: any) {
-    // Lógica para añadir al carrito
-    console.log('Añadiendo al carrito:', bebestible);
+  anadirAlCarrito(plato: any){
+    this.sus.addCarrito(plato);
+    Swal.fire("¡Producto agregado!", "", "success");
   }
 
   // Método para obtener las traducciones

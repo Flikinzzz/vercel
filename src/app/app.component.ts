@@ -93,6 +93,8 @@ export class AppComponent {
     for (var i = 0; i < this.carrito.length; i++) {
       descripcion = descripcion + plato[i].nombre_producto + '        $' + plato[i].precio + '<br>';
     }
+    let nCarrito = this.sus.getNCarrito();
+    descripcion = descripcion +'<br>Su numero de orden es: ' + nCarrito;
     console.log(descripcion);
     Swal.fire({
       title: `Carrito`,
@@ -104,7 +106,7 @@ export class AppComponent {
       showCloseButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("¡Funcion no disponible!", "", "success");
+        Swal.fire("¡Funcion no disponible!", "", "error");
       }
     });
   }

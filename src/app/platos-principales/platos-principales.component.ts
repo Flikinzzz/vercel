@@ -22,7 +22,7 @@ export class PlatosPrincipalesComponent implements OnInit {
   moreInfoLabel: string = '';     // Texto para 'Más información'
   addToCartLabel: string = '';    // Texto para 'Añadir al carrito'
   languageSubscription!: Subscription; // Suscripción para detectar cambios de idioma
-  anadirAlCarrito: any;
+
 
   constructor(private sus: SupabaseService, private translationService: TranslationService) {
     this.platosPrincipales = [];
@@ -58,6 +58,11 @@ export class PlatosPrincipalesComponent implements OnInit {
         this.sus.addCarrito(plato);
       }
     });
+  }
+
+  anadirAlCarrito(plato: any){
+    this.sus.addCarrito(plato);
+    Swal.fire("¡Producto agregado!", "", "success");
   }
 
   // Método para cargar las traducciones según el idioma actual

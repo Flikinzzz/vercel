@@ -56,8 +56,8 @@ export class SupabaseService {
   
 
 
-  async getNCarrito() {
-    return this.nCarrito;
+  getNCarrito(): String {
+    return this.nCarrito.toString();
   }
 
   async addCarrito(datos: any) {

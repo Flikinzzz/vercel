@@ -16,7 +16,6 @@ import { TranslationService } from '../translation.service'; // Importa el servi
 })
 export class VeganoComponent implements OnInit {
   platosPrincipales: any[];
-  anadirAlCarrito: any;
 
   constructor(private sus: SupabaseService, private translationService: TranslationService) { // Inyecta el servicio de traducción
     this.platosPrincipales = [];
@@ -31,6 +30,10 @@ export class VeganoComponent implements OnInit {
     this.platosPrincipales = data || [];
   }
 
+  anadirAlCarrito(plato: any){
+    this.sus.addCarrito(plato);
+    Swal.fire("¡Producto agregado!", "", "success");
+  }  
   mostrarInfo(plato: any) {
     Swal.fire({
       title: `${plato.nombre_producto}`,
