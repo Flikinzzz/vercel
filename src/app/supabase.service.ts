@@ -38,6 +38,18 @@ export class SupabaseService {
     return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
   }
 
+  async getTodo(){
+    const { data, error } = await supabase
+      .from('producto')
+      .select('*');
+    if (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
+    return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+  }
+  
+
   async getInfoPlatos(id: number){
     const { data, error } = await supabase
       .from('producto')
@@ -68,6 +80,29 @@ export class SupabaseService {
       ])
   }
 
+  async editarProducto(data: any) {
+    const { error } = await supabase
+      .from('carrito')
+      .update(data)
+      .eq('id_producto', data.product_id);
+      if (error){
+        console.error('Error fetching data:', error);
+        return false;
+      }
+      return true;
+  }
+  async eliminarProducto(data: any) {
+    const { error } = await supabase
+      .from('carrito')
+      .delete(data)
+      .eq('id_producto', data.product_id);
+      if (error){
+        console.error('Error fetching data:', error);
+        return false;
+      }
+      return true;
+  }
+
   async getCarrito() {
     const { data, error } = await supabase
       .from('carrito')
@@ -77,7 +112,7 @@ export class SupabaseService {
       console.error('Error fetching data:', error);
       return [];
     }
-    return data; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+      return data; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
   }
 
   /* async insertOrderDetail(orderDetailData: any) {

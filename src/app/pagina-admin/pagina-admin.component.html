@@ -1,0 +1,31 @@
+<body>
+    <p>pagina-admin works!</p>
+    <table class="table table-head-bg-primary mt-4">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Disp.</th>
+                <th scope="col">Cambiar Disp.</th>
+                <th scope="col">Accion1</th>
+                <th scope="col">Accion2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let articulo of objetos; let index = index">
+                <td>{{articulo.id_producto}}</td>
+                <td>{{articulo.nombre_producto}}</td>
+                <td>{{articulo.descripcion}}</td>
+                <td>{{articulo.precio}}</td>
+                <td>{{articulo.tipo_producto}}</td>
+                <td>{{articulo.disponibilidad}}</td>
+                <td onclick="toggle(articulo)">Cambiar</td>
+                <td onclick="editar(articulo)">Editar</td>
+                <td onclick="eliminar(articulo)">Eliminar</td>
+            </tr>
+        </tbody>
+    </table>
+</body>

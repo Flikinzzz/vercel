@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslationService } from '../translation.service';
 import { Subscription } from 'rxjs';
+import { CarouselModule,  } from 'primeng/carousel';
+import { SupabaseService } from '../supabase.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [CarouselModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']  
 })
@@ -13,8 +15,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   welcome: string = '';
   instructions: string = '';
   languageSubscription!: Subscription;
+  objetos: any[];
 
-  constructor(private translationService: TranslationService) {}
+  constructor(private translationService: TranslationService, private sus: SupabaseService) {
+    this.objetos = [];
+  }
 
   ngOnInit() {
     this.loadTranslations(); // Cargar traducciones inicialmente
@@ -37,6 +42,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.languageSubscription.unsubscribe();
     }
   }
+
+  async getCatalogo(ids: number[]) {
+    const data = await this.sus.getTodo();
+    this.objetos = data || [];
+  }
+
 }
 
 

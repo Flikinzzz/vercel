@@ -4,11 +4,13 @@ import { PlatosPrincipalesComponent } from './platos-principales/platos-principa
 import { BebestiblesComponent } from './bebestibles/bebestibles.component';
 import { VeganoComponent } from './vegano/vegano.component';
 import { IdiomaComponent } from './idioma/idioma.component';
+import { PaginaAdminComponent } from './pagina-admin/pagina-admin.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'platosPrincipales', component: PlatosPrincipalesComponent },
     { path: 'bebestibles', component: BebestiblesComponent },
     { path: 'vegano', component: VeganoComponent },
-    { path: 'idioma', component: IdiomaComponent }
+    { path: 'idioma', component: IdiomaComponent },
+    {path: 'pagina-admin', component: PaginaAdminComponent}
 ];

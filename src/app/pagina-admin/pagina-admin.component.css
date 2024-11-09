@@ -1,0 +1,8 @@
+.table-head-bg-primary thead th, .table-striped-bg-primary tbody tr:nth-of-type(odd) {
+    background: #1D62F0 !important;
+    color: #ffffff !important;
+    border: 0px !important;
+  }
+  .table-head-bg-primary {
+    border: 1px solid #1D62F0 !important;
+  }

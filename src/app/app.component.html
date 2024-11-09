@@ -37,6 +37,12 @@
         </span>
       </a>
       <a mat-list-item>
+        <span class="entry" [routerLink]="['/pagina-admin']">
+          <mat-icon>manage_accounts</mat-icon>
+          <span *ngIf="!isCollapsed"> {{ getTranslation('acceso administración') }}</span>
+        </span>
+      </a>
+      <a mat-list-item>
         <span class="entry" [routerLink]="['/idioma']">
           <mat-icon>language</mat-icon>
           <span *ngIf="!isCollapsed"> {{ getTranslation('language') }}</span>
