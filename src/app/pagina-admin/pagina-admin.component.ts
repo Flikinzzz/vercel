@@ -36,7 +36,7 @@ export class PaginaAdminComponent {
     }
   }
   async eliminar(data: any){
-    const estado = /*await this.sus.editarProducto(data)*/ false;
+    const estado = /*await this.sus.eliminarProducto(data)*/ false;
     if (estado){
       Swal.fire('¡Eliminado con éxito!', '', 'error');
     }else{

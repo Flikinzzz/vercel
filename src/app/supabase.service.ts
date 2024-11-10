@@ -82,7 +82,7 @@ export class SupabaseService {
 
   async editarProducto(data: any) {
     const { error } = await supabase
-      .from('carrito')
+      .from('producto')
       .update(data)
       .eq('id_producto', data.product_id);
       if (error){
@@ -93,9 +93,21 @@ export class SupabaseService {
   }
   async eliminarProducto(data: any) {
     const { error } = await supabase
-      .from('carrito')
+      .from('producto')
       .delete(data)
       .eq('id_producto', data.product_id);
+      if (error){
+        console.error('Error fetching data:', error);
+        return false;
+      }
+      return true;
+  }
+  async eliminarCarrito(data:any){
+    const { error } = await supabase
+      .from('carrito')
+      .delete(data)
+      .eq('id_producto', data.product_id)
+      .eq('numero_carrito', this.nCarrito);
       if (error){
         console.error('Error fetching data:', error);
         return false;

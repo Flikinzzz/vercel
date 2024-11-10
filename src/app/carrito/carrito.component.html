@@ -1,0 +1,21 @@
+<div class="col-lg-12 col-sm-6">
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-24">
+        <mat-card-title>Carrito de compras</mat-card-title>
+        <div *ngFor="let item of carrito; let index = index">
+          <br>
+          <div>Item: {{index}}</div>
+          <div>Nombre: {{item.nombre_producto}}</div>
+          <div>Precio: {{item.precio}}</div>
+          <br>
+          <button color="accent" 
+                  mat-raised-button 
+                  (click)="eliminarCarrito(item)"
+                  >Eliminar</button>
+          <br>
+        </div>
+        <div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>

@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';  // Importa HttpClientM
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { delay, filter } from 'rxjs/operators';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Route, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MatCommonModule, MatOptionModule } from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
@@ -46,7 +46,8 @@ export class AppComponent {
     constructor(
       private observer: BreakpointObserver,
       private translationService: TranslationService,  // Inyectar el servicio de traducción
-      private sus: SupabaseService
+      private sus: SupabaseService,
+      private router: Router
     ) {
       this.carrito = [];
     }
@@ -101,14 +102,14 @@ export class AppComponent {
     Swal.fire({
       title: `Carrito`,
       html: descripcion,
-      confirmButtonText: 'Pagar',
+      confirmButtonText: 'Ver y modificar carrito',
       confirmButtonColor: '#71cf13',
       cancelButtonText: 'Cerrar',
       cancelButtonColor: '#DBDBDB',
       showCloseButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("¡Funcion no disponible!", "", "error");
+        this.router.navigate(['/','carrito']);
       }
     });
   }
