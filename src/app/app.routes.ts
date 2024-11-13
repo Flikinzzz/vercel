@@ -5,6 +5,7 @@ import { BebestiblesComponent } from './bebestibles/bebestibles.component';
 import { VeganoComponent } from './vegano/vegano.component';
 import { IdiomaComponent } from './idioma/idioma.component';
 import { PaginaAdminComponent } from './pagina-admin/pagina-admin.component';
+import { CarritoComponent } from './carrito/carrito.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -12,5 +13,6 @@ export const routes: Routes = [
     { path: 'bebestibles', component: BebestiblesComponent },
     { path: 'vegano', component: VeganoComponent },
     { path: 'idioma', component: IdiomaComponent },
-    {path: 'pagina-admin', component: PaginaAdminComponent}
+    {path: 'pagina-admin', component: PaginaAdminComponent},
+    {path:'carrito', component: CarritoComponent}
 ];

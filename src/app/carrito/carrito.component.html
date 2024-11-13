@@ -2,9 +2,9 @@
     <mat-card class="cardWithShadow">
       <mat-card-content class="p-24">
         <mat-card-title>Carrito de compras</mat-card-title>
-        <div *ngFor="let item of carrito; let index = index">
+        <div *ngFor="let item of carritoFinal; let index = index">
           <br>
-          <div>Item: {{index}}</div>
+          <div>Item: {{index+1}}</div>
           <div>Nombre: {{item.nombre_producto}}</div>
           <div>Precio: {{item.precio}}</div>
           <br>
