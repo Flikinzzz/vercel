@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'; // Agrega esta línea
 import { BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TranslationService {
-  private translations: any = {};  // Aquí almacenamos las traducciones cargadas
-  private languageChange = new BehaviorSubject<string>('es');  // Inicialización correcta del BehaviorSubject
-  private currentLanguage: string = 'es';  // Propiedad para almacenar el idioma actual
+  private translations: any = {};
+  private languageChange = new BehaviorSubject<string>('es');
+  private currentLanguage: string = 'es';
 
   constructor(private http: HttpClient) { }
 
-  // Método para cargar las traducciones para un idioma
   loadTranslations(language: string) {
-    this.currentLanguage = language;  // Actualizar el idioma actual
-    
-    // Cargar el archivo de traducción usando HttpClient
+    this.currentLanguage = language;
     const url = `assets/i18n/${language}.json`;
     this.http.get(url).subscribe(
       (translations: any) => {
-        this.translations = translations;  // Guardar las traducciones cargadas
+        this.translations = translations;
       },
       (error) => {
         console.error(`Error al cargar el archivo de traducción para ${language}:`, error);
@@ -28,19 +26,21 @@ export class TranslationService {
     );
   }
 
-  // Método para cambiar el idioma
   changeLanguage(lang: string) {
-    this.loadTranslations(lang);  // Cargar las traducciones del nuevo idioma
-    this.languageChange.next(lang);  // Notificar a los suscriptores del cambio de idioma
+    this.loadTranslations(lang);
+    this.languageChange.next(lang);
   }
 
-  // Método para obtener la traducción de una clave
   getTranslation(key: string): string {
-    return this.translations[key] || key;  // Si no hay traducción, retorna la clave
+    return this.translations[key] || key;
   }
 
-  // Método para subscribirse a cambios de idioma
   onLanguageChange() {
-    return this.languageChange.asObservable();  // Exponer el observable para que los componentes se suscriban
+    return this.languageChange.asObservable();
+  }
+
+  // Nuevo método para obtener el idioma actual
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
   }
 }

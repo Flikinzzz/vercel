@@ -1,71 +1,72 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import Swal from 'sweetalert2';
 import { SupabaseService } from '../supabase.service';
-import { TranslationService } from '../translation.service'; // Importa el servicio de traducción
-import { Subscription } from 'rxjs'; // Importa 'Subscription' para suscribir a cambios de idioma
+import { TranslationService } from '../translation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-platos-principales',
   standalone: true,
   imports: [MatCardModule, MatButtonModule, CommonModule, MatIconModule],
   templateUrl: './platos-principales.component.html',
-  styleUrl: './platos-principales.component.css'
+  styleUrls: ['./platos-principales.component.css']
 })
-export class PlatosPrincipalesComponent implements OnInit {
-  platosPrincipales: any[];
-  mainCoursesTitle: string = '';  // Título para 'Platos principales'
-  priceLabel: string = '';        // Texto para 'Precio'
-  moreInfoLabel: string = '';     // Texto para 'Más información'
-  addToCartLabel: string = '';    // Texto para 'Añadir al carrito'
-  languageSubscription!: Subscription; // Suscripción para detectar cambios de idioma
+export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
+  platosPrincipales: any[] = [];
+  mainCoursesTitle: string = '';
+  priceLabel: string = '';
+  moreInfoLabel: string = '';
+  addToCartLabel: string = '';
+  languageSubscription!: Subscription;
 
-
-  constructor(private sus: SupabaseService, private translationService: TranslationService) {
-    this.platosPrincipales = [];
-    this.getPlatos([1, 2, 3]);
-  }
+  constructor(private supabaseService: SupabaseService, private translationService: TranslationService) {}
 
   ngOnInit() {
-    this.loadTranslations(); // Cargar las traducciones al iniciar el componente
-    
-    // Suscribirse a los cambios de idioma y recargar las traducciones cuando se cambie el idioma
-    this.languageSubscription = this.translationService.onLanguageChange().subscribe(() => {
+    this.loadTranslations();
+
+    this.languageSubscription = this.translationService.onLanguageChange().subscribe(lang => {
       this.loadTranslations();
+      this.updatePlatosByLanguage(lang);
     });
+
+    this.updatePlatosByLanguage(this.translationService.getCurrentLanguage());
   }
 
-  async getPlatos(ids: number[]) {
-    const data = await this.sus.getPlatos(ids);
-    this.platosPrincipales = data || [];
+  async updatePlatosByLanguage(language: string) {
+    const tipoProducto = language === 'es' ? [0] : [3];
+    this.platosPrincipales = await this.supabaseService.getPlatos(tipoProducto) || [];
   }
 
-  mostrarInfo(plato: any) {
+  async mostrarInfo(plato: any) {
     Swal.fire({
       title: `${plato.nombre_producto}`,
-      html: `${plato.descripcion}<br>${this.priceLabel}: $${plato.precio}`, // Traducción aplicada al texto de precio
-      confirmButtonText: this.addToCartLabel, // Traducción aplicada al botón de añadir al carrito
+      html: `${plato.descripcion}<br>${this.priceLabel}: $${plato.precio}`,
+      confirmButtonText: this.addToCartLabel,
       confirmButtonColor: '#71cf13',
-      cancelButtonText: 'Cancelar', // Si también quieres traducir esto, puedes añadir una clave en el archivo JSON
+      cancelButtonText: 'Cancelar',
       cancelButtonColor: '#DBDBDB',
       showCloseButton: true
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("¡Producto agregado!", "", "success");
-        this.sus.addCarrito(plato);
+        await this.anadirAlCarrito(plato); // Llamada a anadirAlCarrito para agregar y mostrar mensaje una vez.
       }
     });
   }
 
-  anadirAlCarrito(plato: any){
-    this.sus.addCarrito(plato);
-    Swal.fire("¡Producto agregado!", "", "success");
+  async anadirAlCarrito(plato: any) {
+    try {
+      await this.supabaseService.addCarrito(plato); // Confirmación de que se completa antes de mostrar alerta
+      Swal.fire("¡Producto agregado!", "", "success");
+    } catch (error) {
+      console.error("Error al agregar producto al carrito:", error);
+      Swal.fire("Error al agregar el producto", "Intenta de nuevo más tarde", "error");
+    }
   }
 
-  // Método para cargar las traducciones según el idioma actual
   loadTranslations() {
     this.mainCoursesTitle = this.translationService.getTranslation('mainCourses');
     this.priceLabel = this.translationService.getTranslation('price');
@@ -74,7 +75,6 @@ export class PlatosPrincipalesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    // Cancelar la suscripción cuando el componente se destruya
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }

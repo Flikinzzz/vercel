@@ -14,15 +14,24 @@ import Swal from 'sweetalert2';
 export class CarritoComponent {
 
   carrito: any[];
+  carritoFinal: any[];
 
   constructor(private sus: SupabaseService) {
     this.carrito = [];
+    this.carritoFinal = [];
     this.cargarCarrito();
   }
 
   async cargarCarrito() {
     const data = await this.sus.getCarrito();
     this.carrito = data;
+    var ids: number[];
+    ids = [];
+    for (var i = 0; i < this.carrito.length; i++) {
+      ids.push(this.carrito[i].id_producto);
+    }
+    var datosFinales = await this.sus.getPlatos(ids);
+    this.carritoFinal = datosFinales;
   }
 
   async eliminarCarrito(data: any){

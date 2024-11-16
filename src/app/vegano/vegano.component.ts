@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import Swal from 'sweetalert2';
 import { SupabaseService } from '../supabase.service'; 
-import { TranslationService } from '../translation.service'; // Importa el servicio de traducción
+import { TranslationService } from '../translation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-vegano',
@@ -14,39 +15,57 @@ import { TranslationService } from '../translation.service'; // Importa el servi
   templateUrl: './vegano.component.html',
   styleUrls: ['./vegano.component.css']
 })
-export class VeganoComponent implements OnInit {
-  platosPrincipales: any[];
+export class VeganoComponent implements OnInit, OnDestroy {
+  platosPrincipales: any[] = [];
+  private languageSubscription: Subscription | undefined;
 
-  constructor(private sus: SupabaseService, private translationService: TranslationService) { // Inyecta el servicio de traducción
-    this.platosPrincipales = [];
+  constructor(
+    private sus: SupabaseService,
+    private translationService: TranslationService
+  ) {}
+
+  ngOnInit() {
+    this.loadPlatosByLanguage(this.translationService.getCurrentLanguage());
+
+    this.languageSubscription = this.translationService.onLanguageChange().subscribe(lang => {
+      this.loadPlatosByLanguage(lang);
+    });
   }
 
-  async ngOnInit() {
-    this.getPlatos([7,8,9]); 
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
-  async getPlatos(ids: number[]) {
-    const data = await this.sus.getPlatos(ids);
+  async loadPlatosByLanguage(language: string) {
+    const tipoProducto = language === 'en' ? [5] : [2];
+    const data = await this.sus.getPlatos(tipoProducto);
     this.platosPrincipales = data || [];
   }
 
-  anadirAlCarrito(plato: any){
-    this.sus.addCarrito(plato);
-    Swal.fire("¡Producto agregado!", "", "success");
+  async anadirAlCarrito(plato: any) {
+    try {
+      await this.sus.addCarrito(plato); // Espera a que se complete la operación de añadir
+      Swal.fire("¡Producto agregado!", "", "success");
+    } catch (error) {
+      console.error("Error al agregar producto al carrito:", error);
+      Swal.fire("Error al agregar el producto", "Intenta de nuevo más tarde", "error");
+    }
   }  
+
   mostrarInfo(plato: any) {
     Swal.fire({
       title: `${plato.nombre_producto}`,
       html: `${plato.descripcion}<br>Valor: $${plato.precio}`,
-      confirmButtonText: this.getTranslation('addToCartLabel'), // Traducción para "Agregar al carrito"
+      confirmButtonText: this.getTranslation('addToCartLabel'),
       confirmButtonColor: '#71cf13',
-      cancelButtonText: this.getTranslation('cancelLabel'), // Traducción para "Cancelar"
+      cancelButtonText: this.getTranslation('cancelLabel'),
       cancelButtonColor: '#DBDBDB',
       showCloseButton: true
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire(this.getTranslation('productAddedLabel'), '', 'success'); // Traducción para "Producto agregado"
-        this.sus.addCarrito(plato);
+        await this.anadirAlCarrito(plato); // Usa await para asegurar la secuencia
       }
     });
   }

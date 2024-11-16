@@ -29,7 +29,7 @@ export class SupabaseService {
     const { data, error } = await supabase
       .from('producto')
       .select('*')
-      .in('id_producto', ids);
+      .in('tipo_producto', ids);
 
     if (error) {
       console.error('Error fetching data:', error);
@@ -54,7 +54,7 @@ export class SupabaseService {
     const { data, error } = await supabase
       .from('producto')
       .select('*')
-      .eq('id_producto', id);
+      .eq('tipo_producto', id);
     if (error) {
       console.error('Error fetching data:', error);
       return 'xd';
