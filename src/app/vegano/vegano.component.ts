@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import Swal from 'sweetalert2';
-import { SupabaseService } from '../supabase.service'; 
+import { SupabaseService } from '../supabase.service';
 import { TranslationService } from '../translation.service';
 import { Subscription } from 'rxjs';
 
@@ -22,7 +22,7 @@ export class VeganoComponent implements OnInit, OnDestroy {
   constructor(
     private sus: SupabaseService,
     private translationService: TranslationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadPlatosByLanguage(this.translationService.getCurrentLanguage());
@@ -41,6 +41,9 @@ export class VeganoComponent implements OnInit, OnDestroy {
   async loadPlatosByLanguage(language: string) {
     const tipoProducto = language === 'en' ? [5] : [2];
     const data = await this.sus.getPlatos(tipoProducto);
+  }
+  async getPlatos(ids: number[]) {
+    const data = await this.sus.getByType(2);
     this.platosPrincipales = data || [];
   }
 
@@ -52,7 +55,7 @@ export class VeganoComponent implements OnInit, OnDestroy {
       console.error("Error al agregar producto al carrito:", error);
       Swal.fire("Error al agregar el producto", "Intenta de nuevo más tarde", "error");
     }
-  }  
+  }
 
   mostrarInfo(plato: any) {
     Swal.fire({

@@ -1,5 +1,85 @@
 <body>
-    <p>pagina-admin works!</p>
+
+    <div class="overlay" *ngIf="edicion"></div>
+    <div class="modal" *ngIf="edicion">
+        <button mat-icon-button (click)="cerrarEditar()" style="float: right;">
+            <mat-icon>cancel</mat-icon>
+        </button>
+        <form [formGroup]="edit" (submit)="editar(objetoEditar)">
+            <label for="inlineinput" class="col-md-3 col-form-label">Nombre producto</label>
+            <div class="col-md-9 p-0">
+                <input type="text" class="form-control input-full" id="inlineinput" formControlName="nombre_producto"
+                     >
+            </div>
+            <label for="precio" class="col-md-3 col-form-label">Precio producto</label>
+            <div class="col-md-9 p-0">
+                <input type="number" class="form-control input-full" id="precio" formControlName="precio"
+                     >
+            </div>
+            <div>Descripcion:</div>
+            <textarea class="form-control" id="comment" rows="5" formControlName="descripcion"
+                >
+                    </textarea>
+            <br>
+            <label for="tipo_producto" class="col-md-3 col-form-label">Tipo de producto</label>
+            <br>
+            <select class="form-control" id="tipo_producto" formControlName="tipo_producto">
+                <option value=0>Plato principal</option>
+                <option value=1>Bebestible</option>
+                <option value=2>Plato vegano</option>
+                <option value=6>Postre</option>
+            </select>
+            <br>
+            <label for="disponibilidad" class="col-md-3 col-form-label">Disponibilidad</label>
+            <br>
+            <select class="form-control" id="disponibilidad" formControlName="disponible">
+                <option [value]="true">Disponible</option>
+                <option [value]="false">No disponible</option>
+            </select>
+            <div> </div>
+            <br>
+            <button mat-flat-button color="primary" type="submit">Guardar</button>
+        </form>
+        <br>
+        <button mat-flat-button (click)="eliminarCarritos()">Limpiar carritos</button>
+        <button mat-flat-button (click)="cerrarEditar()">Cerrar</button>
+    </div>
+    <form [formGroup]="creacion" (submit)="crearObjeto()">
+        <label for="inlineinput" class="col-md-3 col-form-label">Nombre producto</label>
+        <div class="col-md-9 p-0">
+            <input type="text" class="form-control input-full" id="inlineinput" formControlName="nombre_producto"
+                placeholder="Nombre...">
+        </div>
+        <label for="precio" class="col-md-3 col-form-label">Precio producto</label>
+        <div class="col-md-9 p-0">
+            <input type="number" class="form-control input-full" id="precio" formControlName="precio" placeholder="$">
+        </div>
+        <div>Descripcion:</div>
+        <textarea class="form-control" id="comment" rows="5" formControlName="descripcion">
+                </textarea>
+        <br>
+        <label for="tipo_producto" class="col-md-3 col-form-label">Tipo de producto</label>
+        <br>
+        <select class="form-control" id="tipo_producto" formControlName="tipo_producto">
+            <option value=0>Plato principal</option>
+            <option value=1>Bebestible</option>
+            <option value=2>Plato vegano</option>
+            <option value=6>Postre</option>
+        </select>
+        <br>
+        <label for="disponibilidad" class="col-md-3 col-form-label">Disponibilidad</label>
+        <br>
+        <select class="form-control" id="disponibilidad" formControlName="disponible">
+            <option [value]="true">Disponible</option>
+            <option [value]="false">No disponible</option>
+        </select>
+        <div> </div>
+        <br>
+        <button mat-flat-button color="primary" type="submit">Añadir</button>
+
+    </form>
+    <button mat-flat-button color="primary" (click)="refrescar()">Refrescar</button>
+    <hr>
     <table class="table table-head-bg-primary mt-4">
         <thead>
             <tr>
@@ -21,10 +101,10 @@
                 <td>{{articulo.descripcion}}</td>
                 <td>{{articulo.precio}}</td>
                 <td>{{articulo.tipo_producto}}</td>
-                <td>{{articulo.disponibilidad}}</td>
-                <td onclick="toggle(articulo)">Cambiar</td>
-                <td onclick="editar(articulo)">Editar</td>
-                <td onclick="eliminar(articulo)">Eliminar</td>
+                <td>{{outputDisponible(articulo.disponible)}}</td>
+                <td><button (click)="toggle(articulo)">Cambiar</button></td>
+                <td><button (click)="abrirEditar(articulo)">Editar</button></td>
+                <td><button (click)="eliminar(articulo)">Eliminar</button></td>
             </tr>
         </tbody>
     </table>

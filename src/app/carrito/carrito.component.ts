@@ -35,12 +35,14 @@ export class CarritoComponent {
   }
 
   async eliminarCarrito(data: any){
+    console.log(data);
     const estado = await this.sus.eliminarCarrito(data);
     if (estado){
       Swal.fire('¡Eliminado con éxito!', '', 'error');
     }else{
       Swal.fire("Hubo un error al eliminar", "", "error");
     }
+    this.cargarCarrito();
   }
 
 }

@@ -31,6 +31,12 @@
         </span>
       </a>
       <a mat-list-item>
+        <span class="entry" [routerLink]="['/postres']">
+          <mat-icon>icecream</mat-icon>
+          <span *ngIf="!isCollapsed"> {{ getTranslation('desserts') }}</span>
+        </span>
+      </a>
+      <a mat-list-item>
         <span class="entry" [routerLink]="['/vegano']">
           <mat-icon>eco</mat-icon>
           <span *ngIf="!isCollapsed"> {{ getTranslation('vegan') }}</span>

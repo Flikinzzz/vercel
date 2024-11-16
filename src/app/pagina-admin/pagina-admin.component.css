@@ -1,8 +1,39 @@
-.table-head-bg-primary thead th, .table-striped-bg-primary tbody tr:nth-of-type(odd) {
-    background: #1D62F0 !important;
-    color: #ffffff !important;
-    border: 0px !important;
-  }
-  .table-head-bg-primary {
-    border: 1px solid #1D62F0 !important;
-  }
+.table-head-bg-primary thead th,
+.table-striped-bg-primary tbody tr:nth-of-type(odd) {
+  background: #1D62F0 !important;
+  color: #ffffff !important;
+  border: 0px !important;
+}
+
+.table-head-bg-primary {
+  border: 1px solid #1D62F0 !important;
+}
+
+body {
+  position: relative;
+  padding-left: 10vw;
+}
+
+.overlay {
+  position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.modal {
+    width: 40vw;
+    height: auto;
+    position: fixed;
+    background-color: #ffffff;
+    text-align: left;
+    padding-left: 10vw;
+    z-index: 11; /* 1px higher than the overlay layer */
+}
+
+.flexExpand {
+  flex: 1 1 auto;
+}

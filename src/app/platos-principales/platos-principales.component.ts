@@ -23,7 +23,11 @@ export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
   addToCartLabel: string = '';
   languageSubscription!: Subscription;
 
-  constructor(private supabaseService: SupabaseService, private translationService: TranslationService) {}
+
+  constructor(private supabaseService: SupabaseService, private translationService: TranslationService) {
+    this.platosPrincipales = [];
+    this.getPlatos(0);
+  }
 
   ngOnInit() {
     this.loadTranslations();
@@ -39,6 +43,10 @@ export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
   async updatePlatosByLanguage(language: string) {
     const tipoProducto = language === 'es' ? [0] : [3];
     this.platosPrincipales = await this.supabaseService.getPlatos(tipoProducto) || [];
+  }
+  async getPlatos(ids: number) {
+    const data = await this.supabaseService.getByType(ids);
+    this.platosPrincipales = data || [];
   }
 
   async mostrarInfo(plato: any) {

@@ -6,6 +6,7 @@ import { VeganoComponent } from './vegano/vegano.component';
 import { IdiomaComponent } from './idioma/idioma.component';
 import { PaginaAdminComponent } from './pagina-admin/pagina-admin.component';
 import { CarritoComponent } from './carrito/carrito.component';
+import { PostresComponent } from './postres/postres.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -14,5 +15,6 @@ export const routes: Routes = [
     { path: 'vegano', component: VeganoComponent },
     { path: 'idioma', component: IdiomaComponent },
     {path: 'pagina-admin', component: PaginaAdminComponent},
-    {path: 'carrito', component: CarritoComponent}
+    {path:'carrito', component: CarritoComponent},
+    {path: 'postres', component: PostresComponent}
 ];

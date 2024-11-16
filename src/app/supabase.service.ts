@@ -38,6 +38,19 @@ export class SupabaseService {
     return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
   }
 
+  async getByType(type: number){
+    const { data, error } = await supabase
+      .from('producto')
+      .select('*')
+      .eq('tipo_producto', type);
+
+    if (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
+    return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+  }
+
   async getTodo(){
     const { data, error } = await supabase
       .from('producto')
@@ -79,6 +92,17 @@ export class SupabaseService {
         { numero_carrito: this.nCarrito, id_producto: datos.id_producto, cantidad : 1 },
       ])
   }
+  async crearProducto(datos:any){
+    console.log(datos);
+    const { error } = await supabase
+      .from('producto')
+      .insert([
+        { nombre_producto: datos.nombre_producto, descripcion: datos.descripcion, precio: datos.precio, tipo_producto: datos.tipo_producto, disponible: datos.disponible},
+      ])
+      if (error) {
+        console.error('Error fetching data:', error);
+      }
+  }
 
   async editarProducto(data: any) {
     const { error } = await supabase
@@ -102,12 +126,22 @@ export class SupabaseService {
       }
       return true;
   }
-  async eliminarCarrito(data:any){
+  async eliminarCarrito(data: any){
     const { error } = await supabase
       .from('carrito')
       .delete(data)
-      .eq('id_producto', data.product_id)
+      .eq('id_producto', data.id_producto)
       .eq('numero_carrito', this.nCarrito);
+      if (error){
+        console.error('Error fetching data:', error);
+        return false;
+      }
+      return true;
+  }
+  async eliminarCarritos(){
+    const { error } = await supabase
+      .from('carrito')
+      .delete()
       if (error){
         console.error('Error fetching data:', error);
         return false;

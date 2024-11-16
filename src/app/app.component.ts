@@ -98,7 +98,6 @@ export class AppComponent {
     }
     let nCarrito = this.sus.getNCarrito();
     descripcion = descripcion +'<br>Su numero de orden es: ' + nCarrito + '<br>SubTotal: $' + subtotal;
-    console.log(descripcion);
     Swal.fire({
       title: `Carrito`,
       html: descripcion,
