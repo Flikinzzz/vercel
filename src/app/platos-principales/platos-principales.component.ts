@@ -41,8 +41,8 @@ export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
   }
 
   async updatePlatosByLanguage(language: string) {
-    const tipoProducto = language === 'es' ? [0] : [3];
-    this.platosPrincipales = await this.supabaseService.getPlatos(tipoProducto) || [];
+    const tipoProducto = language === 'es' ? 0 : 3;
+    this.platosPrincipales = await this.supabaseService.getByType(tipoProducto) || [];
   }
   async getPlatos(ids: number) {
     const data = await this.supabaseService.getByType(ids);

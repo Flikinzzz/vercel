@@ -39,13 +39,11 @@ export class VeganoComponent implements OnInit, OnDestroy {
   }
 
   async loadPlatosByLanguage(language: string) {
-    const tipoProducto = language === 'en' ? [5] : [2];
-    const data = await this.sus.getPlatos(tipoProducto);
+    const tipoProducto = language === 'en' ? 5 : 2;
+    const data = await this.sus.getByType(tipoProducto);
+    this.platosPrincipales = data;
   }
-  async getPlatos(ids: number[]) {
-    const data = await this.sus.getByType(2);
-    this.platosPrincipales = data || [];
-  }
+
 
   async anadirAlCarrito(plato: any) {
     try {

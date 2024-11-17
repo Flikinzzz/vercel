@@ -1,11 +1,16 @@
-<body>
+<body *ngIf="validado">
 
     <div class="overlay" *ngIf="edicion"></div>
     <div class="modal" *ngIf="edicion">
         <button mat-icon-button (click)="cerrarEditar()" style="float: right;">
             <mat-icon>cancel</mat-icon>
         </button>
-        <form [formGroup]="edit" (submit)="editar(objetoEditar)">
+        <form [formGroup]="edit" (submit)="editar()">
+            <label for="id" class="col-md-3 col-form-label">ID producto</label>
+            <div class="col-md-9 p-0">
+                <input type="text" class="form-control input-full" id="id" formControlName="id_producto" [contentEditable]="false"
+                     >
+            </div>
             <label for="inlineinput" class="col-md-3 col-form-label">Nombre producto</label>
             <div class="col-md-9 p-0">
                 <input type="text" class="form-control input-full" id="inlineinput" formControlName="nombre_producto"

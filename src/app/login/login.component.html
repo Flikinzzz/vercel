@@ -1,0 +1,22 @@
+<body style="padding-left: 10vw;">
+    <div class="col-lg-12 col-sm-6">
+        <mat-card class="cardWithShadow">
+          <mat-card-content class="p-24">
+            <mat-card-title>Iniciar sesión</mat-card-title>
+            <form [formGroup]="datosLogin" (submit)="validacion()">
+                <label for="usuario" class="col-md-3 col-form-label">Nombre usuario:</label><br>
+                <input type="text" class="form-control" id="usuario" formControlName="nombre_usuario">
+                <br>
+                <label for="contraseña" class="col-md-3 col-form-label">Contraseña:</label><br>
+                <input type="password" class="form-control" id="contraseña" formControlName="contraseña">
+                <br>
+                <br>
+                <button mat-flat-button color="primary" type="submit">Acceder</button>
+                
+            </form>
+            <br>
+            <div style="color: red; font-weight: bold;" *ngIf="wrong">Nombre de usuario o contraseña incorrectos, intentar de nuevo.</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+</body>

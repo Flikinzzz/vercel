@@ -29,7 +29,7 @@ export class SupabaseService {
     const { data, error } = await supabase
       .from('producto')
       .select('*')
-      .in('tipo_producto', ids);
+      .in('id_producto', ids);
 
     if (error) {
       console.error('Error fetching data:', error);
@@ -38,7 +38,7 @@ export class SupabaseService {
     return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
   }
 
-  async getByType(type: number){
+  async getByType(type: number) {
     const { data, error } = await supabase
       .from('producto')
       .select('*')
@@ -51,7 +51,7 @@ export class SupabaseService {
     return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
   }
 
-  async getTodo(){
+  async getTodo() {
     const { data, error } = await supabase
       .from('producto')
       .select('*');
@@ -61,9 +61,9 @@ export class SupabaseService {
     }
     return data || []; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
   }
-  
 
-  async getInfoPlatos(id: number){
+
+  async getInfoPlatos(id: number) {
     const { data, error } = await supabase
       .from('producto')
       .select('*')
@@ -78,75 +78,84 @@ export class SupabaseService {
   }
 
 
-  
+
 
 
   getNCarrito(): String {
     return this.nCarrito.toString();
   }
 
+
   async addCarrito(datos: any) {
     const { error } = await supabase
       .from('carrito')
       .insert([
-        { numero_carrito: this.nCarrito, id_producto: datos.id_producto, cantidad : 1 },
+        { numero_carrito: this.nCarrito, id_producto: datos.id_producto, cantidad: 1 },
       ])
   }
-  async crearProducto(datos:any){
-    console.log(datos);
+  async crearProducto(datos: any) {
     const { error } = await supabase
       .from('producto')
       .insert([
-        { nombre_producto: datos.nombre_producto, descripcion: datos.descripcion, precio: datos.precio, tipo_producto: datos.tipo_producto, disponible: datos.disponible},
+        { nombre_producto: datos.nombre_producto, descripcion: datos.descripcion, precio: datos.precio, tipo_producto: datos.tipo_producto, disponible: datos.disponible },
       ])
-      if (error) {
-        console.error('Error fetching data:', error);
-      }
+    if (error) {
+      console.error('Error fetching data:', error);
+    }
   }
 
   async editarProducto(data: any) {
     const { error } = await supabase
       .from('producto')
       .update(data)
-      .eq('id_producto', data.product_id);
-      if (error){
-        console.error('Error fetching data:', error);
-        return false;
-      }
-      return true;
+      .eq('id_producto', data.id_producto);
+    if (error) {
+      console.error('Error fetching data:', error);
+      return false;
+    }
+    return true;
   }
   async eliminarProducto(data: any) {
     const { error } = await supabase
       .from('producto')
       .delete(data)
       .eq('id_producto', data.product_id);
-      if (error){
-        console.error('Error fetching data:', error);
-        return false;
-      }
-      return true;
+    if (error) {
+      console.error('Error fetching data:', error);
+      return false;
+    }
+    return true;
   }
-  async eliminarCarrito(data: any){
+  async eliminarCarrito(data: any) {
     const { error } = await supabase
       .from('carrito')
       .delete(data)
       .eq('id_producto', data.id_producto)
       .eq('numero_carrito', this.nCarrito);
-      if (error){
-        console.error('Error fetching data:', error);
-        return false;
-      }
-      return true;
+    if (error) {
+      console.error('Error fetching data:', error);
+      return false;
+    }
+    return true;
   }
-  async eliminarCarritos(){
+  async eliminarCarritos() {
     const { error } = await supabase
       .from('carrito')
       .delete()
-      if (error){
-        console.error('Error fetching data:', error);
-        return false;
-      }
-      return true;
+    if (error) {
+      console.error('Error fetching data:', error);
+      return false;
+    }
+    return true;
+  }
+  async limpiarCarrito() {
+    const { error } = await supabase
+      .from('carrito')
+      .delete()
+      .eq('numero_carrito', this.nCarrito)
+    if (error) {
+      console.error('Error fetching data:', error);
+    }
   }
 
   async getCarrito() {
@@ -158,8 +167,59 @@ export class SupabaseService {
       console.error('Error fetching data:', error);
       return [];
     }
-      return data; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
+    return data; // nose porque va el "|| []" pero con eso no me da error, no quitar!!
   }
+  async checkAuth(user: any, pass: any) {
+    const { data, error } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('nombre_usuario', user);
+    if (error) {
+      console.error('Error fetching data:', error);
+      return false;
+    }
+    if (data[0].contraseña == pass) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  async hacerAdmin() {
+    const administracion = await this.getByType(99);
+    const { error } = await supabase
+      .from('carrito')
+      .insert([
+        { numero_carrito: this.nCarrito, id_producto: administracion[0].id_producto, cantidad: 1 }
+      ])
+  }
+
+  async checkAdmin(): Promise<boolean> {
+    const carrito = await this.getCarrito();
+    let esAdmin = false;
+    for (let i = 0; i < carrito.length; i++) {
+      if (carrito[i].id_producto == 25) {
+        esAdmin = true;
+      }
+    }
+    return esAdmin
+  }
+
+  async unAdmin() {
+    if (await this.checkAdmin()) {
+      const { error } = await supabase
+        .from('carrito')
+        .delete()
+        .eq('id_producto', 25)
+        .eq('numero_carrito', this.nCarrito);
+      if (!error) {
+        console.error('Admin quitado con éxito');
+      }
+    }
+  }
+
+
 
   /* async insertOrderDetail(orderDetailData: any) {
      const { data, error } = await supabase
