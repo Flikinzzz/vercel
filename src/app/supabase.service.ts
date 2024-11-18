@@ -119,7 +119,7 @@ export class SupabaseService {
     const { error } = await supabase
       .from('producto')
       .delete(data)
-      .eq('id_producto', data.product_id);
+      .eq('id_producto', data.id_producto);
     if (error) {
       console.error('Error fetching data:', error);
       return false;

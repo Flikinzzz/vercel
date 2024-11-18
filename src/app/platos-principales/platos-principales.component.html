@@ -11,15 +11,16 @@
         <div>{{ priceLabel }}: ${{ plato.precio }}</div>
         <br>
         <!-- Botón con texto traducido para 'Más información' -->
-        <button mat-raised-button (click)="mostrarInfo(plato)">
+        <button mat-raised-button (click)="mostrarInfo(plato)" *ngIf="plato.disponible" >
           {{ moreInfoLabel }}
         </button>
 
         <!-- Botón con texto traducido para 'Añadir al carrito' -->
-        <button color="#80e70b" mat-raised-button (click)="anadirAlCarrito(plato)">
+        <button color="#80e70b" mat-raised-button (click)="anadirAlCarrito(plato)" *ngIf="plato.disponible">
           {{ addToCartLabel }}
           <mat-icon>shopping_cart</mat-icon>
         </button>
+        <div style="color: red;" *ngIf="!plato.disponible">Artículo actualmente no disponible</div>
         <br>
       </div>
     </mat-card-content>

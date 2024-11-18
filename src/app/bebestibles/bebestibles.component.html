@@ -7,13 +7,14 @@
         <div>{{ bebestible.nombre_producto }}</div>
         <div>{{ getTranslation('priceLabel') }}: ${{ bebestible.precio }}</div>
         <br>
-        <button mat-raised-button (click)="mostrarInfo(bebestible)">
+        <button mat-raised-button (click)="mostrarInfo(bebestible)" *ngIf="bebestible.disponible">
           {{ getTranslation('moreInfoLabel') }} <!-- Traducción de 'Más información' -->
         </button>
-        <button mat-raised-button (click)="anadirAlCarrito(bebestible)">
+        <button mat-raised-button (click)="anadirAlCarrito(bebestible)" *ngIf="bebestible.disponible">
           {{ getTranslation('addToCartLabel') }} <!-- Traducción de 'Añadir al carrito' -->
           <mat-icon>shopping_cart</mat-icon>
         </button>
+        <div style="color: red;" *ngIf="!bebestible.disponible">Artículo actualmente no disponible</div>
         <br>
       </div>
       <div></div>

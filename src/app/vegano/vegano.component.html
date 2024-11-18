@@ -9,15 +9,16 @@
         <br>
         <button
           mat-raised-button 
-          (click)="mostrarInfo(plato)">
+          (click)="mostrarInfo(plato)" *ngIf="plato.disponible">
           {{ getTranslation('moreInfoLabel') }} <!-- Texto del botón "Más información" traducido -->
         </button>
         <button color="#80e70b"
           mat-raised-button 
-          (click)="anadirAlCarrito(plato)">
+          (click)="anadirAlCarrito(plato)" *ngIf="plato.disponible">
           {{ getTranslation('addToCartLabel') }} 
           <mat-icon>shopping_cart</mat-icon>
         </button>
+        <div style="color: red;" *ngIf="!plato.disponible">Artículo actualmente no disponible</div>
         <br>
       </div>
       <div>

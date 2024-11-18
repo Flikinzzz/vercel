@@ -110,7 +110,6 @@ export class PaginaAdminComponent {
 
   async editar() {
     let data = this.edit.value;
-    console.log(data);
     const estado = await this.sus.editarProducto(data);
     if (estado) {
       Swal.fire('¡Actualizado con éxito!', '', 'success');
@@ -119,15 +118,19 @@ export class PaginaAdminComponent {
     }
   }
   async eliminar(data: any) {
-    const estado = /*await this.sus.eliminarProducto(data);*/ false;
+    const estado = await this.sus.eliminarProducto(data);
     if (estado) {
-      Swal.fire('¡Eliminado con éxito!', '', 'error');
+      Swal.fire('¡Eliminado con éxito!', '', 'success');
     } else {
       Swal.fire("Hubo un error al eliminar", "", "error");
     }
   }
-  async toggle(data: any) {
-    data.disponible = !data.disponible;
+  async toggle(data:any) {
+    if(data.disponible == null){
+      data.disponible = true;
+    } else{
+      data.disponible = !data.disponible;
+    }
     const estado = await this.sus.editarProducto(data);
     if (estado) {
       Swal.fire('¡Actualizado con éxito!', '', 'success');

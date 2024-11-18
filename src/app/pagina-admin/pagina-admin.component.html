@@ -8,22 +8,19 @@
         <form [formGroup]="edit" (submit)="editar()">
             <label for="id" class="col-md-3 col-form-label">ID producto</label>
             <div class="col-md-9 p-0">
-                <input type="text" class="form-control input-full" id="id" formControlName="id_producto" [contentEditable]="false"
-                     >
+                <input type="text" class="form-control input-full" id="id" formControlName="id_producto"
+                    [contentEditable]="false">
             </div>
             <label for="inlineinput" class="col-md-3 col-form-label">Nombre producto</label>
             <div class="col-md-9 p-0">
-                <input type="text" class="form-control input-full" id="inlineinput" formControlName="nombre_producto"
-                     >
+                <input type="text" class="form-control input-full" id="inlineinput" formControlName="nombre_producto">
             </div>
             <label for="precio" class="col-md-3 col-form-label">Precio producto</label>
             <div class="col-md-9 p-0">
-                <input type="number" class="form-control input-full" id="precio" formControlName="precio"
-                     >
+                <input type="number" class="form-control input-full" id="precio" formControlName="precio">
             </div>
             <div>Descripcion:</div>
-            <textarea class="form-control" id="comment" rows="5" formControlName="descripcion"
-                >
+            <textarea class="form-control" id="comment" rows="5" formControlName="descripcion">
                     </textarea>
             <br>
             <label for="tipo_producto" class="col-md-3 col-form-label">Tipo de producto</label>
@@ -32,7 +29,11 @@
                 <option value=0>Plato principal</option>
                 <option value=1>Bebestible</option>
                 <option value=2>Plato vegano</option>
+                <option value=3>Plato principal - inglés</option>
+                <option value=4>Bebestible - inglés</option>
+                <option value=5>Plato vegano - inglés</option>
                 <option value=6>Postre</option>
+                <option value=7>Postre - Inglés</option>
             </select>
             <br>
             <label for="disponibilidad" class="col-md-3 col-form-label">Disponibilidad</label>
@@ -69,7 +70,11 @@
             <option value=0>Plato principal</option>
             <option value=1>Bebestible</option>
             <option value=2>Plato vegano</option>
+            <option value=3>Plato principal - inglés</option>
+            <option value=4>Bebestible - inglés</option>
+            <option value=5>Plato vegano - inglés</option>
             <option value=6>Postre</option>
+            <option value=7>Postre - Inglés</option>
         </select>
         <br>
         <label for="disponibilidad" class="col-md-3 col-form-label">Disponibilidad</label>
