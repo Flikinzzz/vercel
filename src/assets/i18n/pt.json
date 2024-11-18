@@ -1,0 +1,31 @@
+{
+    "menu": "SuperQR",
+    "home": "Casa",
+    "mainCourses": "Pratos Principais ",
+    "drinks": "Bebidas",
+    "vegan": "Vegan",
+    "language": "Língua ",
+    "restaurantName": "Nome do Restaurante",
+    "welcome" : "¡Welcome to restaurant La Prueba!",
+    "instructions" : "Comece o seu pedido aqui !",
+    "price": "Preço",
+    "moreInfo": "Mais informações",
+    "addToCart": "adicionar ao carrinho",
+    "priceLabel": "Preço",
+    "moreInfoLabel": "Mais informações",
+    "addToCartLabel": "adicionar ao carrinho",
+    "cancelLabel": "Cancelar",
+    "productAddedLabel": "¡Produto adicionado!",
+    "dessertsTitle": "Sobremesas",
+    "unavailableLabel": "Produto atualmente não disponível",
+    "administración": "Administração do acesso ",
+    "desserts": "Sobremesas",
+    "loginTitle": "Iniciar sessão",
+    "usernameLabel": "Nome de usuario",
+    "passwordLabel": "Senha",
+    "loginButton": "Entrar",
+    "errorMessage": "Nome de usuario ou senha incorrectos.",
+    "successMessage": "Início de sessão bem sucedido!"
+    
+  }
+  
