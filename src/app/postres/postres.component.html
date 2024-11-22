@@ -1,25 +1,34 @@
 <div class="col-lg-12 col-sm-6">
   <mat-card class="cardWithShadow" style="width: fit-content;">
     <mat-card-content class="p-24">
-      <mat-card-title>{{ getTranslation('dessertsTitle') }}</mat-card-title> <!-- Traducción de 'Postres' -->
+      <mat-card-title>{{ getTranslation('dessertsTitle') }}</mat-card-title> <!-- Título principal traducido -->
+      <mat-card-title>{{ postreLabel }}</mat-card-title> <!-- Subtítulo dinámico traducido -->
+      
+      <!-- Iteración sobre la lista de postres -->
       <div *ngFor="let postre of postres; let index = index">
         <br>
-        <img src="/assets/pastel.jpg" width="64" height="64">
+        <img src="/assets/pastel.jpg" width="64" height="64" alt="Imagen del postre"> <!-- Imagen con texto alternativo -->
         <div>{{ postre.nombre_producto }}</div>
-        <div>{{ getTranslation('priceLabel') }}: ${{ postre.precio }}</div> <!-- Traducción de 'Precio' -->
+        <div>{{ getTranslation('priceLabel') }}: ${{ postre.precio }}</div> <!-- Etiqueta del precio traducida -->
         <br>
+
+        <!-- Botón de más información -->
         <button mat-raised-button (click)="mostrarInfo(postre)" *ngIf="postre.disponible">
-          {{ getTranslation('moreInfoLabel') }} <!-- Traducción de 'Más información' -->
+          {{ getTranslation('moreInfoLabel') }}
         </button>
+
+        <!-- Botón para añadir al carrito -->
         <button mat-raised-button (click)="anadirAlCarrito(postre)" *ngIf="postre.disponible">
-          {{ getTranslation('addToCartLabel') }} <!-- Traducción de 'Añadir al carrito' -->
+          {{ getTranslation('addToCartLabel') }}
           <mat-icon>shopping_cart</mat-icon>
         </button>
+
+        <!-- Mensaje de no disponibilidad -->
         <div style="color: red;" *ngIf="!postre.disponible">
-          {{ getTranslation('unavailableLabel') }} <!-- Traducción de 'Artículo actualmente no disponible' -->
+          {{ getTranslation('unavailableLabel') }}
         </div>
+        
         <hr>
-        <br>
       </div>
     </mat-card-content>
   </mat-card>

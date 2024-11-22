@@ -1,61 +1,90 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../supabase.service';
 import { TranslationService } from '../translation.service';
-import Swal from 'sweetalert2';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-postres',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, CommonModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, CommonModule],
   templateUrl: './postres.component.html',
-  styleUrl: './postres.component.css'
+  styleUrls: ['./postres.component.css']
 })
-export class PostresComponent {
-postres: any[];
+export class PostresComponent implements OnInit, OnDestroy {
+  postres: any[] = [];
+  private languageSubscription: Subscription | undefined;
+  addToCartLabel: string = '';
+  cancelLabel: string = '';
+  productAddedLabel: string = '';
+  postreLabel: string = '';
 
-constructor(
-  private sus: SupabaseService,
-  private translationService: TranslationService
-){
-  this.postres = [];
-  this.getPostres();
-}
+  constructor(
+    private sus: SupabaseService,
+    private translationService: TranslationService
+  ) {}
 
+  ngOnInit() {
+    this.loadTranslations();
+    this.loadPostresByLanguage(this.translationService.getCurrentLanguage());
 
-async getPostres(){
-  const data = await this.sus.getByType(6);
-  this.postres = data;
-}
+    // Suscribirse al cambio de idioma
+    this.languageSubscription = this.translationService.onLanguageChange().subscribe(lang => {
+      this.loadTranslations();
+      this.loadPostresByLanguage(lang);
+    });
+  }
 
-mostrarInfo(postre: any) {
-  Swal.fire({
-    title: `${postre.nombre_producto}`,
-    html: `${postre.descripcion}<br>Valor: $${postre.precio}`,
-    confirmButtonText: this.getTranslation('addToCartLabel'), // Traducción para 'Agregar al carrito'
-    confirmButtonColor: '#71cf13',
-    cancelButtonText: this.getTranslation('cancelLabel'), // Traducción para 'Cancelar'
-    cancelButtonColor: '#DBDBDB',
-    showCloseButton: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire(this.getTranslation('productAddedLabel'), '', 'success'); // Traducción para '¡Producto agregado!'
-      this.sus.addCarrito(postre);
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
     }
-  });
-}
+  }
 
-anadirAlCarrito(plato: any){
-  this.sus.addCarrito(plato);
-  Swal.fire("¡Producto agregado!", "", "success");
-}
+  async loadPostresByLanguage(language: string) {
+    const tipoProducto = language === 'en' ? 7 : 6;
+    const data = await this.sus.getByType(tipoProducto);
+    this.postres = data || [];
+  }
 
-// Método para obtener las traducciones
-getTranslation(key: string): string {
-  return this.translationService.getTranslation(key);
-}
+  mostrarInfo(postre: any) {
+    Swal.fire({
+      title: `${postre.nombre_producto}`,
+      html: `${postre.descripcion}<br>Valor: $${postre.precio}`,
+      confirmButtonText: this.addToCartLabel,
+      confirmButtonColor: '#71cf13',
+      cancelButtonText: this.cancelLabel,
+      cancelButtonColor: '#DBDBDB',
+      showCloseButton: true
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await this.anadirAlCarrito(postre);
+      }
+    });
+  }
 
+  async anadirAlCarrito(postre: any) {
+    try {
+      await this.sus.addCarrito(postre);
+      Swal.fire(this.productAddedLabel, "", "success");
+    } catch (error) {
+      console.error("Error al agregar producto al carrito:", error);
+      Swal.fire("Error al agregar el producto", "Intenta de nuevo más tarde", "error");
+    }
+  }
+
+  loadTranslations() {
+    this.addToCartLabel = this.translationService.getTranslation('addToCartLabel');
+    this.cancelLabel = this.translationService.getTranslation('cancelLabel');
+    this.productAddedLabel = this.translationService.getTranslation('productAddedLabel');
+    this.postreLabel = this.translationService.getTranslation('desserts'); // Traducción del título
+  }
+
+  getTranslation(key: string): string {
+    return this.translationService.getTranslation(key);
+  }
 }
