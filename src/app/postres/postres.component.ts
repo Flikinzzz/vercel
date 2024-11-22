@@ -21,6 +21,7 @@ export class PostresComponent implements OnInit, OnDestroy {
   addToCartLabel: string = '';
   cancelLabel: string = '';
   productAddedLabel: string = '';
+  postreLabel: string = '';
 
   constructor(
     private sus: SupabaseService,
@@ -77,9 +78,10 @@ export class PostresComponent implements OnInit, OnDestroy {
   }
 
   loadTranslations() {
-    this.addToCartLabel = this.translationService.getTranslation('addToCart');
+    this.addToCartLabel = this.translationService.getTranslation('addToCartLabel');
     this.cancelLabel = this.translationService.getTranslation('cancelLabel');
-    this.productAddedLabel = this.translationService.getTranslation('¡Producto agregado!');
+    this.productAddedLabel = this.translationService.getTranslation('productAddedLabel');
+    this.postreLabel = this.translationService.getTranslation('desserts'); // Traducción del título
   }
 
   getTranslation(key: string): string {

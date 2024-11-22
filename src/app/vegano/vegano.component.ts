@@ -19,15 +19,22 @@ export class VeganoComponent implements OnInit, OnDestroy {
   platosPrincipales: any[] = [];
   private languageSubscription: Subscription | undefined;
 
+  // Traducciones dinámicas
+  addToCartLabel: string = '';
+  cancelLabel: string = '';
+  productAddedLabel: string = '';
+
   constructor(
     private sus: SupabaseService,
     private translationService: TranslationService
-  ) { }
+  ) {}
 
   ngOnInit() {
+    this.loadTranslations();
     this.loadPlatosByLanguage(this.translationService.getCurrentLanguage());
 
     this.languageSubscription = this.translationService.onLanguageChange().subscribe(lang => {
+      this.loadTranslations();
       this.loadPlatosByLanguage(lang);
     });
   }
@@ -44,14 +51,17 @@ export class VeganoComponent implements OnInit, OnDestroy {
     this.platosPrincipales = data;
   }
 
-
   async anadirAlCarrito(plato: any) {
     try {
-      await this.sus.addCarrito(plato); // Espera a que se complete la operación de añadir
-      Swal.fire("¡Producto agregado!", "", "success");
+      await this.sus.addCarrito(plato);
+      Swal.fire(this.productAddedLabel, "", "success"); // Mensaje traducido
     } catch (error) {
       console.error("Error al agregar producto al carrito:", error);
-      Swal.fire("Error al agregar el producto", "Intenta de nuevo más tarde", "error");
+      Swal.fire(
+        this.getTranslation('errorAddingProduct'),
+        this.getTranslation('tryAgainLater'),
+        "error"
+      ); // Mensajes traducidos para error
     }
   }
 
@@ -59,19 +69,24 @@ export class VeganoComponent implements OnInit, OnDestroy {
     Swal.fire({
       title: `${plato.nombre_producto}`,
       html: `${plato.descripcion}<br>Valor: $${plato.precio}`,
-      confirmButtonText: this.getTranslation('addToCartLabel'),
+      confirmButtonText: this.addToCartLabel, // Botón traducido
       confirmButtonColor: '#71cf13',
-      cancelButtonText: this.getTranslation('cancelLabel'),
+      cancelButtonText: this.cancelLabel, // Botón traducido
       cancelButtonColor: '#DBDBDB',
       showCloseButton: true
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await this.anadirAlCarrito(plato); // Usa await para asegurar la secuencia
+        await this.anadirAlCarrito(plato);
       }
     });
   }
 
-  // Método para obtener traducción
+  loadTranslations() {
+    this.addToCartLabel = this.translationService.getTranslation('addToCartLabel');
+    this.cancelLabel = this.translationService.getTranslation('cancelLabel');
+    this.productAddedLabel = this.translationService.getTranslation('productAddedLabel');
+  }
+
   getTranslation(key: string): string {
     return this.translationService.getTranslation(key);
   }
