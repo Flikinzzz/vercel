@@ -21,13 +21,10 @@ export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
   priceLabel: string = '';
   moreInfoLabel: string = '';
   addToCartLabel: string = '';
+  productAddedLabel: string = '';
   languageSubscription!: Subscription;
 
-
-  constructor(private supabaseService: SupabaseService, private translationService: TranslationService) {
-    this.platosPrincipales = [];
-    this.getPlatos(0);
-  }
+  constructor(private supabaseService: SupabaseService, private translationService: TranslationService) {}
 
   ngOnInit() {
     this.loadTranslations();
@@ -40,13 +37,15 @@ export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
     this.updatePlatosByLanguage(this.translationService.getCurrentLanguage());
   }
 
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+
   async updatePlatosByLanguage(language: string) {
     const tipoProducto = language === 'es' ? 0 : 3;
     this.platosPrincipales = await this.supabaseService.getByType(tipoProducto) || [];
-  }
-  async getPlatos(ids: number) {
-    const data = await this.supabaseService.getByType(ids);
-    this.platosPrincipales = data || [];
   }
 
   async mostrarInfo(plato: any) {
@@ -60,15 +59,15 @@ export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
       showCloseButton: true
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await this.anadirAlCarrito(plato); // Llamada a anadirAlCarrito para agregar y mostrar mensaje una vez.
+        await this.anadirAlCarrito(plato); // Llamada a anadirAlCarrito
       }
     });
   }
 
   async anadirAlCarrito(plato: any) {
     try {
-      await this.supabaseService.addCarrito(plato); // Confirmación de que se completa antes de mostrar alerta
-      Swal.fire("¡Producto agregado!", "", "success");
+      await this.supabaseService.addCarrito(plato);
+      Swal.fire(this.productAddedLabel, "", "success"); // Mensaje traducido de éxito
     } catch (error) {
       console.error("Error al agregar producto al carrito:", error);
       Swal.fire("Error al agregar el producto", "Intenta de nuevo más tarde", "error");
@@ -79,12 +78,7 @@ export class PlatosPrincipalesComponent implements OnInit, OnDestroy {
     this.mainCoursesTitle = this.translationService.getTranslation('mainCourses');
     this.priceLabel = this.translationService.getTranslation('price');
     this.moreInfoLabel = this.translationService.getTranslation('moreInfo');
-    this.addToCartLabel = this.translationService.getTranslation('addToCart');
-  }
-
-  ngOnDestroy() {
-    if (this.languageSubscription) {
-      this.languageSubscription.unsubscribe();
-    }
+    this.addToCartLabel = this.translationService.getTranslation('addToCartLabel');
+    this.productAddedLabel = this.translationService.getTranslation('productAddedLabel'); // Traducción del mensaje de éxito
   }
 }
