@@ -15,6 +15,16 @@
     "moreInfoLabel": "Más información",
     "addToCartLabel": "Añadir al carrito",
     "cancelLabel": "Cancelar",
-    "productAddedLabel": "¡Producto agregado!"
+    "productAddedLabel": "¡Producto agregado!",
+    "dessertsTitle": "Postres",
+    "unavailableLabel": "Producto actualmente no disponible",
+    "administración": "acceso administración",
+    "desserts": "Postres",
+    "loginTitle": "Iniciar sesión",
+    "usernameLabel": "Nombre de usuario",
+    "passwordLabel": "Contraseña",
+    "loginButton": "Acceder",
+    "errorMessage": "Usuario incorrecto o contraseña.",
+    "successMessage": "Inicio de sesión exitoso!"
   }
   

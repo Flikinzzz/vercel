@@ -15,6 +15,9 @@ import Swal from 'sweetalert2';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+getTranslation(arg0: string) {
+throw new Error('Method not implemented.');
+}
   validado: boolean;
   wrong = false;
   datosLogin = new FormGroup({
@@ -28,12 +31,10 @@ export class LoginComponent {
     this.checkeoAdmin();
   }
 
-
   async checkeoAdmin() {
     let resultado = await this.sus.checkAdmin();
     this.validado = resultado;
   }
-
 
   async validacion(){
     let datos = this.datosLogin.value;
@@ -41,10 +42,9 @@ export class LoginComponent {
     if(resultado){
       this.sus.hacerAdmin();
       this.router.navigate(['/']);
-      Swal.fire('¡Login correcto!', '', 'success');
+      Swal.fire('Login successful!', '', 'success'); 
     }else{
       this.wrong = true;
     }
   }
-
 }

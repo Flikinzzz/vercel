@@ -1,25 +1,26 @@
 <div class="col-lg-12 col-sm-6">
-    <mat-card class="cardWithShadow" style="width: fit-content;" >
-      <mat-card-content class="p-24">
-        <mat-card-title>{{ getTranslation('Postres') }}</mat-card-title> <!-- Traducción de 'postres' -->
-        <div *ngFor="let postre of postres; let index = index">
-          <br>
-          <img src="/assets/pastel.jpg" width="64" height="64">
-          <div>{{ postre.nombre_producto }}</div>
-          <div>{{ getTranslation('priceLabel') }}: ${{ postre.precio }}</div>
-          <br>
-          <button mat-raised-button (click)="mostrarInfo(postre)" *ngIf="postre.disponible">
-            {{ getTranslation('moreInfoLabel') }} <!-- Traducción de 'Más información' -->
-          </button>
-          <button mat-raised-button (click)="anadirAlCarrito(postre)" *ngIf="postre.disponible">
-            {{ getTranslation('addToCartLabel') }} <!-- Traducción de 'Añadir al carrito' -->
-            <mat-icon>shopping_cart</mat-icon>
-          </button>
-          <div style="color: red;" *ngIf="!postre.disponible">Artículo actualmente no disponible</div>
-          <hr>
-          <br>
+  <mat-card class="cardWithShadow" style="width: fit-content;">
+    <mat-card-content class="p-24">
+      <mat-card-title>{{ getTranslation('dessertsTitle') }}</mat-card-title> <!-- Traducción de 'Postres' -->
+      <div *ngFor="let postre of postres; let index = index">
+        <br>
+        <img src="/assets/pastel.jpg" width="64" height="64">
+        <div>{{ postre.nombre_producto }}</div>
+        <div>{{ getTranslation('priceLabel') }}: ${{ postre.precio }}</div> <!-- Traducción de 'Precio' -->
+        <br>
+        <button mat-raised-button (click)="mostrarInfo(postre)" *ngIf="postre.disponible">
+          {{ getTranslation('moreInfoLabel') }} <!-- Traducción de 'Más información' -->
+        </button>
+        <button mat-raised-button (click)="anadirAlCarrito(postre)" *ngIf="postre.disponible">
+          {{ getTranslation('addToCartLabel') }} <!-- Traducción de 'Añadir al carrito' -->
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+        <div style="color: red;" *ngIf="!postre.disponible">
+          {{ getTranslation('unavailableLabel') }} <!-- Traducción de 'Artículo actualmente no disponible' -->
         </div>
-        <div></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        <hr>
+        <br>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

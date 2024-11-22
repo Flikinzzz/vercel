@@ -43,7 +43,7 @@ export class BebestiblesComponent implements OnInit, OnDestroy {
   }
 
   async loadBebestiblesByLanguage(language: string) {
-    const tipoProducto = language === 'en' ? 4 : 1;
+    const tipoProducto = language === 'en' ? 4 : (language === 'pt' ? 5 : 1);
     const data = await this.sus.getByType(tipoProducto);
     this.bebestiblesPrincipales = data || [];
   }
